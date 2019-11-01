@@ -24,7 +24,8 @@
       var ws = new WebSocket(url);
       var myid = -1;
 
-      ws.onmessage = function (msg) {
+      ws.onmessage = function (msg) { //此例子中只在服务端调用HandleConnect的时候，会来个消息，然后HandleMessage的BroadcastOthers也会触发此处。
+        //alert(msg.data);
         var cmds = {"iam": iam, "set": set, "dis": dis};
         if (msg.data) {
           var parts = msg.data.split(" ")
@@ -59,7 +60,7 @@
         }
       }
 
-      window.onmousemove = function (e) {
+      window.onmousemove = function (e) { //鼠标移动的时候向服务端发送坐标
         if (myid > -1) {
           set(myid, e.pageX, e.pageY);
           ws.send([e.pageX, e.pageY].join(" "));
